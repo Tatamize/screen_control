@@ -1,0 +1,16 @@
+[Unit]
+Description=Chrome Kiosk Screen 2
+After=graphical-session.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStartPre=/usr/bin/xrandr --output DP-2 --off
+ExecStart=/usr/bin/google-chrome --kiosk --new-window \
+  --user-data-dir=/home/YOURUSER/.chrome-kiosk2 \
+  --window-position=1920,0 \
+  --window-size=1920,1080 \
+  "https://second-url.com"
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

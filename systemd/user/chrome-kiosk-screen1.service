@@ -1,0 +1,15 @@
+[Unit]
+Description=Chrome Kiosk screen 1
+After=graphical-session.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/google-chrome --kiosk --new-window \
+  --user-data-dir=/home/YOURUSER/.chrome-kiosk1 \
+  --window-position=0,0 \
+  --window-size=1920,1080 \
+  "https://roboat.tech/system"
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
