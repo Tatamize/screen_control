@@ -1,33 +1,12 @@
 [Unit]
 Description=Chrome Kiosk Screen 2
-After=graphical-session.target
-
-[Service]
-Environment=DISPLAY=:0
-ExecStartPre=/usr/bin/xrandr --output DP-2 --off
-ExecStart=/usr/bin/google-chrome --kiosk --new-window \
-  --user-data-dir=/home/YOURUSER/.chrome-kiosk2 \
-  --window-position=1920,0 \
-  --window-size=1920,1080 \
-  "https://second-url.com"
-Restart=on-failure
-
-[Install]
-WantedBy=graphical-session.target
-
-
-[Unit]
-Description=Chrome Kiosk Screen 2
-After=graphical-session.target
+After=graphical-session.target chrome-kiosk-screen1.service
 Wants=chrome-kiosk-screen1.service
-After=chrome-kiosk-screen1.service
 
 [Service]
 Environment=DISPLAY=:0
 ExecStartPre=/bin/sleep 5
-ExecStart=/bin/bash -c '/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk2 "https://roboat.tech/system" & sleep 3 && wmctrl -r ":ACTIVE:" -e 0,1920,0,1920,1080'
+ExecStart=/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk2 "https://roboat.tech/system"
+ExecStartPost=/bin/bash -c 'sleep 3 && wmctrl -r ":ACTIVE:" -e 0,1920,0,1920,1080'
 Restart=on-failure
 RestartSec=5
-
-[Install]
-WantedBy=graphical-session.target
