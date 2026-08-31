@@ -14,3 +14,20 @@ Restart=on-failure
 
 [Install]
 WantedBy=graphical-session.target
+
+
+[Unit]
+Description=Chrome Kiosk Screen 2
+After=graphical-session.target
+Wants=chrome-kiosk-screen1.service
+After=chrome-kiosk-screen1.service
+
+[Service]
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sleep 5
+ExecStart=/bin/bash -c '/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk2 "https://roboat.tech/system" & sleep 3 && wmctrl -r ":ACTIVE:" -e 0,1920,0,1920,1080'
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target
