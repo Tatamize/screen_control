@@ -1,0 +1,29 @@
+[Unit]
+Description=Chrome Kiosk screen 1
+After=graphical-session.target
+
+[Service]
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sh -c '/usr/bin/xrandr --output DP-3 --off && /bin/sleep 5'
+ExecStart=/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk1 "http://localhost:3000/view/sailing"
+ExecStartPost=/bin/bash -c 'sleep 3 && wmctrl -r ":ACTIVE:" -e 0,0,0,1920,1080'
+
+
+[Install]
+WantedBy=graphical-session.target
+
+
+
+[Unit]
+Description=Chrome Kiosk Screen 2
+After=graphical-session.target chrome-kiosk-screen1.service
+Wants=chrome-kiosk-screen1.service
+
+[Service]
+Environment=DISPLAY=:0
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk2 "http://localhost:3000/view/sailing?invert=true"
+ExecStartPost=/bin/bash -c 'sleep 3 && wmctrl -r ":ACTIVE:" -e 0,1920,0,1920,1080'
+
+[Install]
+WantedBy=graphical-session.target
