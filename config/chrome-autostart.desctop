@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Chrome Autostart
-Exec=google-chrome --kiosk --noerrdialogs --disable-infobars "http://localhost:3000"
-X-GNOME-Autostart-enabled=true
