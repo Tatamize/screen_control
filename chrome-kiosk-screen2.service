@@ -1,0 +1,22 @@
+[Unit]
+Description=Chrome Kiosk screen 2
+After=graphical-session.target xrandr-fix.service
+Requires=xrandr-fix.service
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=%h/.Xauthority
+ExecStart=/usr/bin/google-chrome --kiosk --new-window \
+  --class=kiosk-screen2 \
+  --user-data-dir=/home/roboat/.chrome-kiosk2 \
+  --window-position=1920,0 \
+  --window-size=1920,1080 \
+  --no-first-run --disable-session-crashed-bubble \
+  "http://localhost:3000/view/sailing?invert=true"
+ExecStartPost=/bin/bash -c 'for i in $(seq 1 50); do wmctrl -xl | grep -qi kiosk-screen2 && break; sleep 0.1; done; wmctrl -x -r kiosk-screen2 -b remove,fullscreen; sleep 0.2; wmctrl -x -r kiosk-screen2 -e 0,1920,0,1920,1080; sleep 0.2; wmctrl -x -r kiosk-screen2 -b add,fullscreen'
+
+
+[Install]
+WantedBy=graphical-session.target
