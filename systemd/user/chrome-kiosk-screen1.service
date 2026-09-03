@@ -4,10 +4,10 @@ After=graphical-session.target
 
 [Service]
 Environment=DISPLAY=:0
+ExecStartPre=/usr/bin/xrandr --output DP-3 --off
 ExecStart=/usr/bin/google-chrome --kiosk --new-window --user-data-dir=/home/roboat/.chrome-kiosk1 "https://roboat.tech/"
 ExecStartPost=/bin/bash -c 'sleep 3 && wmctrl -r ":ACTIVE:" -e 0,0,0,1920,1080'
-Restart=on-failure
-RestartSec=5
+
 
 [Install]
 WantedBy=graphical-session.target
